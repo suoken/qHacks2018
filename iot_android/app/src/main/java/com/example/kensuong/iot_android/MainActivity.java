@@ -41,10 +41,22 @@ public class MainActivity extends AppCompatActivity {
         mCharts[2] = (LineChart) findViewById(R.id.chart2);
         mCharts[3] = (LineChart) findViewById(R.id.chart3);
 
-        for(int i=0; i<mCharts.length; i++) {
-            LineData data = getData(10, 100); // count = 36, range = 100
-            setupChart(mCharts[i], data, mColors[i]);
-        }
+//        for(int i=0; i<mCharts.length; i++) {
+//            LineData data = getData(10, 100); // count = 36, range = 100
+//            setupChart(mCharts[i], data, mColors[i]);
+//        }
+
+        LineData data0 = getData0(10, 100); // count = 36, range = 100
+        setupChart(mCharts[0], data0, mColors[0]);
+
+        LineData data1 = getData1(10, 100); // count = 36, range = 100
+        setupChart(mCharts[1], data1, mColors[1]);
+
+        LineData data2 = getData2(10, 100); // count = 36, range = 100
+        setupChart(mCharts[2], data2, mColors[2]);
+
+        LineData data3 = getData3(10, 100); // count = 36, range = 100
+        setupChart(mCharts[3], data3, mColors[3]);
 
 
         ParticleCloudSDK.init(this);
@@ -93,7 +105,9 @@ public class MainActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onEvent(String eventName, ParticleEvent particleEvent) {
-                                    Toaster.s(MainActivity.this, "Example Event Happened");
+                                    System.out.println(eventName);
+                                    System.out.println(particleEvent.dataPayload);
+                                    Toaster.s(MainActivity.this, "Temperature: " + particleEvent.dataPayload);
                                 }
                             });
                     // return device.getStatus();
@@ -127,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         chart.setData(data);
     }
 
-    private LineData getData(int count, int range) {
+    private LineData getData0(int count, int range) {
         // array list gets an entry
         ArrayList<Entry> yVals = new ArrayList<>();
 
@@ -141,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
             yVals.add(new Entry(i, val));
         }
 
-        LineDataSet set1 = new LineDataSet(yVals, "Data Set");
+        LineDataSet set1 = new LineDataSet(yVals, "Temperature");
         set1.setLineWidth(3f);
         set1.setCircleRadius(5f);
         set1.setCircleHoleRadius(2.5f);
@@ -156,6 +170,108 @@ public class MainActivity extends AppCompatActivity {
         set1.setCubicIntensity(0.2f);
 
         LineData data = new LineData(set1);
+
+        return data;
+
+    }
+
+    private LineData getData1(int count, int range) {
+        // array list gets an entry
+        ArrayList<Entry> yVals = new ArrayList<>();
+
+        Random rand = new Random();
+        int minValue = 1;
+        int maxValue = 3;
+        // Right now the numbers are random on the chart. Need to get the api for the chart
+        for (int i=0; i < count; i++) {
+            int val = rand.nextInt((maxValue - minValue) + 1) + minValue;
+            // int val = 0;
+            yVals.add(new Entry(i, val));
+        }
+
+        LineDataSet set1 = new LineDataSet(yVals, "Humidity");
+        set1.setLineWidth(3f);
+        set1.setCircleRadius(5f);
+        set1.setCircleHoleRadius(2.5f);
+        set1.setColor(Color.WHITE);
+        set1.setCircleColor(Color.WHITE);
+        set1.setHighLightColor(Color.WHITE);
+        set1.setDrawValues(false);
+
+        set1.setDrawCircles(false); // makes the circles disappear
+
+        set1.setMode(LineDataSet.Mode.CUBIC_BEZIER); // makes the lines smoother
+        set1.setCubicIntensity(0.2f);
+
+        LineData data = new LineData(set1);
+
+        return data;
+
+    }
+
+    private LineData getData2(int count, int range) {
+        // array list gets an entry
+        ArrayList<Entry> yVals = new ArrayList<>();
+
+        Random rand = new Random();
+        int minValue = 1;
+        int maxValue = 3;
+        // Right now the numbers are random on the chart. Need to get the api for the chart
+        for (int i=0; i < count; i++) {
+            int val = rand.nextInt((maxValue - minValue) + 1) + minValue;
+            // int val = 0;
+            yVals.add(new Entry(i, val));
+        }
+
+        LineDataSet set1 = new LineDataSet(yVals, "Light");
+        set1.setLineWidth(3f);
+        set1.setCircleRadius(5f);
+        set1.setCircleHoleRadius(2.5f);
+        set1.setColor(Color.WHITE);
+        set1.setCircleColor(Color.WHITE);
+        set1.setHighLightColor(Color.WHITE);
+        set1.setDrawValues(false);
+
+        set1.setDrawCircles(false); // makes the circles disappear
+
+        set1.setMode(LineDataSet.Mode.CUBIC_BEZIER); // makes the lines smoother
+        set1.setCubicIntensity(0.2f);
+
+        LineData data = new LineData(set1);
+
+        return data;
+
+    }
+    private LineData getData3(int count, int range) {
+        // array list gets an entry
+        ArrayList<Entry> yVals = new ArrayList<>();
+
+        Random rand = new Random();
+        int minValue = 1;
+        int maxValue = 3;
+        // Right now the numbers are random on the chart. Need to get the api for the chart
+        for (int i=0; i < count; i++) {
+            //int val = rand.nextInt((maxValue - minValue) + 1) + minValue;
+            int val = 1;
+            yVals.add(new Entry(i, val));
+        }
+
+        LineDataSet set1 = new LineDataSet(yVals, "Moisture");
+        set1.setLineWidth(3f);
+        set1.setCircleRadius(5f);
+        set1.setCircleHoleRadius(2.5f);
+        set1.setColor(Color.WHITE);
+        set1.setCircleColor(Color.WHITE);
+        set1.setHighLightColor(Color.WHITE);
+        set1.setDrawValues(false);
+
+        set1.setDrawCircles(false); // makes the circles disappear
+
+        set1.setMode(LineDataSet.Mode.CUBIC_BEZIER); // makes the lines smoother
+        set1.setCubicIntensity(0.2f);
+
+        LineData data = new LineData(set1);
+
         return data;
 
     }
