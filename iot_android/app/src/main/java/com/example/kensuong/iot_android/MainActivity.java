@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         new AsyncTask<Void, Void, String>() {
             protected String doInBackground(Void... params) {
                 try {
-                    ParticleCloudSDK.getCloud().logIn("alex.toutongi@gmail.com", "Camaro2010");
+                    ParticleCloudSDK.getCloud().logIn(getString(R.string.username), getString(R.string.password));
                     return "Logged in";
                 } catch (ParticleCloudException e) {
                     Log.e("Tag", "Error: " + e.toString());
@@ -75,8 +75,16 @@ public class MainActivity extends AppCompatActivity {
         new AsyncTask<Void, Void, String>() {
             protected String doInBackground(Void... params) {
                 try {
-                    long subscriptionId = ParticleCloudSDK.getCloud().subscribeToAllEvents(
+                    ParticleDevice device = null;
+                    try {
+                        device = ParticleCloudSDK.getCloud().getDevice("2f002a000251363131363432");
+                    } catch (ParticleCloudException e) {
+                        e.printStackTrace();
+                    }
+                    long subscriptionId = ParticleCloudSDK.getCloud().subscribeToDeviceEvents(
+                            "temperature",
                             "2f002a000251363131363432",
+                             //"temperature",
                             new ParticleEventHandler() {
                                 @Override
                                 public void onEventError(Exception e) {
@@ -88,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
                                     Toaster.s(MainActivity.this, "Example Event Happened");
                                 }
                             });
+                    // return device.getStatus();
                     return "Subscribed";
                 } catch (IOException e) {
                     Log.e("Tag", e.toString());
