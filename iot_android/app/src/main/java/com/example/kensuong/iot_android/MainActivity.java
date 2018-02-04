@@ -1,8 +1,10 @@
 package com.example.kensuong.iot_android;
 
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -10,8 +12,16 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
+import io.particle.android.sdk.cloud.ParticleCloudException;
+import io.particle.android.sdk.cloud.ParticleCloudSDK;
+import io.particle.android.sdk.cloud.ParticleDevice;
+import io.particle.android.sdk.cloud.ParticleEvent;
+import io.particle.android.sdk.cloud.ParticleEventHandler;
+import io.particle.android.sdk.utils.Toaster;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,9 +42,63 @@ public class MainActivity extends AppCompatActivity {
         mCharts[3] = (LineChart) findViewById(R.id.chart3);
 
         for(int i=0; i<mCharts.length; i++) {
-            LineData data = getData(36, 100); // count = 36, range = 100
+            LineData data = getData(10, 100); // count = 36, range = 100
             setupChart(mCharts[i], data, mColors[i]);
         }
+
+
+        ParticleCloudSDK.init(this);
+        ParticleDevice device = null;
+
+        try {
+            device = ParticleCloudSDK.getCloud().getDevice("2f002a000251363131363432");
+        } catch (ParticleCloudException e) {
+            e.printStackTrace();
+        }
+
+        new AsyncTask<Void, Void, String>() {
+            protected String doInBackground(Void... params) {
+                try {
+                    ParticleCloudSDK.getCloud().logIn("alex.toutongi@gmail.com", "Camaro2010");
+                    return "Logged in";
+                } catch (ParticleCloudException e) {
+                    Log.e("Tag", "Error: " + e.toString());
+                    return "Error Logging in";
+                }
+            }
+
+            protected void onPostExecute(String msg) {
+                Toaster.s(MainActivity.this, msg);
+            }
+        }.execute();
+
+        new AsyncTask<Void, Void, String>() {
+            protected String doInBackground(Void... params) {
+                try {
+                    long subscriptionId = ParticleCloudSDK.getCloud().subscribeToAllEvents(
+                            "2f002a000251363131363432",
+                            new ParticleEventHandler() {
+                                @Override
+                                public void onEventError(Exception e) {
+                                    Log.e("Tag", "Event Error: ", e);
+                                }
+
+                                @Override
+                                public void onEvent(String eventName, ParticleEvent particleEvent) {
+                                    Toaster.s(MainActivity.this, "Example Event Happened");
+                                }
+                            });
+                    return "Subscribed";
+                } catch (IOException e) {
+                    Log.e("Tag", e.toString());
+                    return "Error subscribing!";
+                }
+            }
+
+            protected void onPostExecute(String msg) {
+                Toaster.s(MainActivity.this, msg);
+            }
+        }.execute();
     }
 
     private void setupChart(LineChart chart, LineData data, int color) {
@@ -58,9 +122,13 @@ public class MainActivity extends AppCompatActivity {
         // array list gets an entry
         ArrayList<Entry> yVals = new ArrayList<>();
 
+        Random rand = new Random();
+        int minValue = 1;
+        int maxValue = 3;
         // Right now the numbers are random on the chart. Need to get the api for the chart
         for (int i=0; i < count; i++) {
-            float val = (float) (Math.random() * range) + 3;
+            int val = rand.nextInt((maxValue - minValue) + 1) + minValue;
+            // int val = 0;
             yVals.add(new Entry(i, val));
         }
 
@@ -109,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
 //        }).andIgnoreCallbacksIfActivityIsFinishing(activity);
 //    }
 
-    // ParticleCloudSDK.getCloud().logIn("alex.toutongi@gmail.com", "Camaro2010");
+//    ParticleCloudSDK.getCloud().logIn("alex.toutongi@gmail.com", "Camaro2010");
 //
 //    try {
 //        ParticleDevice myDevice = ParticleCloudSDK.getCloud().getDevice("2f002a000251363131363432");

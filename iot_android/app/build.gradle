@@ -49,3 +49,118 @@ dependencies {
 
 
 }
+
+//
+//buildscript {
+//    repositories {
+//        maven { url 'https://maven.fabric.io/public' }
+//    }
+//
+//    dependencies {
+//        classpath 'io.fabric.tools:gradle:1.24.4'
+//    }
+//}
+//
+//repositories {
+//    maven { url 'https://maven.fabric.io/public' }
+//    google()
+//}
+//
+//apply plugin: 'com.android.application'
+//apply plugin: 'io.fabric'
+//
+//android {
+//    compileSdkVersion 27
+//    buildToolsVersion '27.0.3'
+//
+//    defaultConfig {
+//        applicationId 'io.particle.android.app'
+//        minSdkVersion 15
+//        targetSdkVersion 27
+//        versionCode 51
+//        versionName "2.1.1"
+//
+//        multiDexEnabled true
+//        vectorDrawables.useSupportLibrary = true
+//    }
+//
+//    dexOptions {
+//        javaMaxHeapSize "2g"
+//    }
+//
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
+//
+//    buildTypes {
+//        release {
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
+//    }
+//
+//    packagingOptions {
+//        exclude 'META-INF/LICENSE.txt'
+//        exclude 'META-INF/NOTICE.txt'
+//    }
+//}
+//
+//repositories {
+//    maven { url "https://jitpack.io" }
+//}
+//
+//// TESTING ONLY: to build against a locally built aars, uncomment these lines, and the
+//// "compile(name:'cloudsdk', ext:'aar')" lines below, under dependencies.
+//// (If you don't know what this means or why we (the SDK maintainers at Particle) would want to
+//// do this, then you can safely ignore all this and keep it commented out. :)
+////repositories {
+////    flatDir {
+////        dirs 'libs'
+////    }
+////}
+//
+//dependencies {
+//    compile fileTree(include: ['*.jar'], dir: 'libs')
+//
+//    compile 'io.particle:cloudsdk:0.4.8'
+//    compile 'io.particle:devicesetup:0.5.1'
+//
+//    // FIXME: look into getting rid of this 3rd party button now that the support lib has a FAB.
+//    // Support lib doesn't do the "speed dial" pattern off of FABs though, so that would have to be
+//    // implemented by hand (and as such, might not be worth it.)
+//    compile 'com.getbase:floatingactionbutton:1.10.1'
+//    compile('com.f2prateek.bundler:bundler:1.1.2') {
+//        exclude module: 'support-v4'
+//    }
+//    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+//        transitive = true
+//    }
+//    compile 'com.afollestad.material-dialogs:core:0.9.4.7'
+//    compile 'com.tumblr:bookends:1.0.0'
+//    compile 'uk.co.chrisjenx:calligraphy:2.3.0'
+//
+//    compile 'com.jakewharton:butterknife:8.8.1'
+//    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+//
+//    compile 'com.android.support:appcompat-v7:27.0.2'
+//    compile 'com.android.support:design:27.0.2'
+//    compile 'com.android.support:support-v13:27.0.2'
+//    compile 'com.android.support:recyclerview-v7:27.0.2'
+//    compile 'com.android.support:support-fragment:27.0.2'
+//    compile 'com.android.support:support-annotations:27.0.2'
+//    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+//    compile 'com.android.support:multidex:1.0.2'
+//    compile 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+//
+//
+//    // for barcode scanning in Electron setup
+//    compile 'com.google.android.gms:play-services-vision:11.8.0'
+//
+//    // TESTING ONLY (see other TESTING comments above)
+////    compile(name:'cloudsdk', ext:'aar')
+////    compile(name:'devicesetup', ext:'aar')
+//}
+//
+//apply plugin: 'com.getkeepsafe.dexcount'
+
